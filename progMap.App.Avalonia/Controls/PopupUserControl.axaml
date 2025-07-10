@@ -1,0 +1,53 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vmAv="using:progMap.App.Avalonia.ViewModels"
+			 xmlns:vm="using:progMap.ViewModels"
+             x:Class="progMap.App.Avalonia.Controls.PopupUserControl">
+
+	<UserControl.Resources>
+		<LinearGradientBrush x:Key="GrayBlueGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+			<GradientStop Color="LavenderBlush" Offset="0"/>
+			<GradientStop Color="#CCCCFF" Offset="100"/>
+		</LinearGradientBrush>
+	</UserControl.Resources>
+
+	<UserControl.Styles>
+		<Style Selector="ToggleButton">
+			<Setter Property="Background" Value="{StaticResource GrayBlueGradientBrush}"/>
+			<Setter Property="BorderBrush"  Value="#775285"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+		</Style>
+	</UserControl.Styles>
+	<Grid>
+		<StackPanel>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="30"/>
+				</Grid.ColumnDefinitions>
+
+				<TextBox x:Name="txtbox1" FontFamily="Courier New" FontSize="14" MinWidth="350" Text="{Binding DataString}"/>
+
+				<ToggleButton Grid.Column="1" Height="30" Width="30" IsChecked="{Binding Path=IsOpen, ElementName=popup}">
+					<Border x:Name="splitBorder_Copy" BorderBrush="Transparent">
+						<Path x:Name="arrow1" Data="F1 M 0,0 L 5.667,5.667 L 10.3334,0 L 10.3334,-2 L 5.667, 3.88501 L0,-1.78168 L0,0 Z" Fill="#FF8D0BC5" VerticalAlignment="Center"/>
+					</Border>
+				</ToggleButton>
+
+				<Popup x:Name="popup">
+					<TextBox Width="{Binding $parent[1].Bounds.Width}" Height="300" MaxHeight="500" TextWrapping="Wrap" FontFamily="Courier New" Text="{Binding DataString}" ScrollViewer.VerticalScrollBarVisibility="Visible" Background="White">
+						<TextBox.Styles>
+							<Style Selector="TextBox:pointerover /template/ Border">
+								<Setter Property="Background" Value="White"/>
+							</Style>
+						</TextBox.Styles>
+					</TextBox>
+				</Popup>
+			</Grid>
+		</StackPanel>
+	</Grid>
+
+</UserControl>

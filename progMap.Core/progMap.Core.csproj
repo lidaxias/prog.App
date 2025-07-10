@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Rss.TmFramework">
+      <HintPath>X:\NewFramework 20241206\Rss.TmFramework 0.10.18 VER\Rss.TmFramework.Controls.Avalonia\bin\Release\net6.0\Rss.TmFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rss.TmFramework.Base">
+      <HintPath>X:\NewFramework 20241206\Rss.TmFramework 0.10.18 VER\Rss.TmFramework.Controls.Avalonia\bin\Release\net6.0\Rss.TmFramework.Base.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

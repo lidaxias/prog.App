@@ -1,0 +1,98 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+			 xmlns:system="using:System"
+			 xmlns:models="clr-namespace:progMap.App.Avalonia.Models;assembly=progMap.App.Avalonia"
+			 xmlns:plugins="clr-namespace:progMap.App.Avalonia.Plugins;assembly=progMap.App.Avalonia"
+			 xmlns:logging="clr-namespace:Rss.TmFramework.Logging;assembly=Rss.TmFramework"
+			 xmlns:LoggerEdit="clr-namespace:Rss.TmFramework.Controls.Avalonia;assembly=Rss.TmFramework.Controls.Avalonia"
+			 x:Class="progMap.App.Avalonia.Plugins.LoggerPluginView">
+	
+	<LoggerEdit:LoggerTextEditorControl
+		x:Name="loggerEditor"
+		Background="AliceBlue"
+		LoggerEdit:LoggerTextEditorBehavior.ColorLog="{Binding LogMessages}">
+		<LoggerEdit:LoggerTextEditorControl.ContextMenu>
+			<ContextMenu>
+				<MenuItem Header="Очистить" Command="{Binding ClearLogCommand}"/>
+				<MenuItem Header="Сохранить как" Click="SaveAs_Click"/>
+			</ContextMenu>
+		</LoggerEdit:LoggerTextEditorControl.ContextMenu>
+	</LoggerEdit:LoggerTextEditorControl>
+
+	<!--<UserControl.Styles>
+		<StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml"/>
+		<Style Selector="AvaloniaEdit|TextEditor.textEditor /template/ ScrollViewer#PART_ScrollViewer">
+			<Setter Property="AllowAutoHide" Value="False"/>
+		</Style>
+	</UserControl.Styles>
+
+	<AvaloniaEdit:TextEditor
+		Name="texteditor"
+		VerticalScrollBarVisibility="Visible"
+		models:TextEditorLoggerBehavior.ColorLog="{Binding LogMessages}"
+		Classes="textEditor"
+		ShowLineNumbers="True"
+		IsReadOnly="True"
+		FontFamily="Cascadia Code"
+		Background="AliceBlue">
+
+		<AvaloniaEdit:TextEditor.ContextMenu>
+			<ContextMenu>
+				<MenuItem Header="Очистить" Command="{Binding ClearLogCommand}"/>
+				<MenuItem Header="Сохранить как" Click="SaveAs_Click"/>
+			</ContextMenu>
+		</AvaloniaEdit:TextEditor.ContextMenu>
+	</AvaloniaEdit:TextEditor>-->
+
+	<!--<ScrollViewer>
+		<ListBox ItemsSource="{Binding LogMessages}"
+                 Background="Transparent"
+                 BorderThickness="0"
+				 SelectionMode="Multiple"
+				 >
+			<ListBox.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Очистить" Command="{Binding ClearLogCommand}"/>
+				</ContextMenu>
+			</ListBox.ContextMenu>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<models:SelectableTextBlock Text="{Binding Text}"
+							   Foreground="{Binding Brush}"
+							   TextWrapping="Wrap"
+							   />
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</ScrollViewer>-->
+
+
+
+
+	<!--<UserControl.Styles>
+		<StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml"/>
+		<Style Selector="AvaloniaEdit|TextEditor.textEditor /template/ ScrollViewer#PART_ScrollViewer">
+			<Setter Property="AllowAutoHide" Value="False"/>
+		</Style>
+	</UserControl.Styles>
+
+	<AvaloniaEdit:TextEditor
+		Name="texteditor"
+        Document="{Binding LogDocument}"	
+		Classes="textEditor"
+		ShowLineNumbers="True"
+		IsReadOnly="True"
+		FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
+		Background="AliceBlue">
+		<AvaloniaEdit:TextEditor.ContextMenu>
+			<ContextMenu>
+				<MenuItem Header="Очистить" Command="{Binding ClearLogCommand}"/>
+				<MenuItem Header="Сохранить как" Click="SaveAs_Click"/>
+			</ContextMenu>
+		</AvaloniaEdit:TextEditor.ContextMenu>
+	</AvaloniaEdit:TextEditor>-->
+</UserControl>

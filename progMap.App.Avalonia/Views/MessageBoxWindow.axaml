@@ -1,0 +1,33 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" MaxWidth="700" Width="450" MinWidth="450" Height="150" MinHeight="150" MaxHeight="300"
+        x:Class="progMap.App.Avalonia.Views.MessageBoxWindow"
+        Icon="/Assets/rss_logo_32x32.ico"
+		WindowStartupLocation="CenterScreen"
+        Title="MessageBoxWindow">
+	
+	<DockPanel HorizontalAlignment="Center">
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="2*"/>
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+
+			<TextBox Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Name="Text" Focusable="False" IsReadOnly="True" BorderThickness="0" TextWrapping="Wrap" />
+			<StackPanel HorizontalAlignment="Right" Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Name="Buttons">
+				<StackPanel.Styles>
+					<Style Selector="Button">
+						<Setter Property="Margin" Value="8,10,0,10"/>
+					</Style>
+				</StackPanel.Styles>
+			</StackPanel>
+		</Grid>
+	</DockPanel>
+</Window>

@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:logging="clr-namespace:Rss.TmFramework.Logging;assembly=Rss.TmFramework"
+             xmlns:converters="using:progMap.App.Avalonia.Converters"
+             x:Class="progMap.App.Avalonia.Views.TestViews.TestCaseControl">
+	
+	<UserControl.Resources>
+		<converters:TestCaseStateConverter x:Key="StateConverter"/>
+	</UserControl.Resources>
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+
+		<Border
+                Grid.Column="0" Grid.Row="0"
+                Background="{Binding State, Converter={StaticResource StateConverter}}"
+				CornerRadius="3,0,0,3"
+				BorderBrush="Black" BorderThickness="1"
+				Width="20"/>
+
+		<Border Grid.Column="1" Grid.Row="0"
+				BorderThickness="0,1,1,1" BorderBrush="Black"
+				CornerRadius="0,3,3,0">
+
+
+			<TextBlock Text="{Binding Header}"
+					   Margin="3"
+					   HorizontalAlignment="Left" VerticalAlignment="Stretch"
+					   TextWrapping="Wrap" FontFamily="Courier New" FontSize="14"/>
+
+		</Border>
+	</Grid>
+</UserControl>

@@ -1,0 +1,177 @@
+<Window xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		     xmlns:system="using:System"
+			 xmlns:vmAv="using:progMap.App.Avalonia.ViewModels"
+		     xmlns:vmAvViews="using:progMap.App.Avalonia.Views"
+		     xmlns:testviews="using:progMap.App.Avalonia.Views.TestViews"
+		     xmlns:vm="using:progMap.ViewModels"
+		     xmlns:vmtests="using:progMap.App.Avalonia.ViewModels.TestViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+		     xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+		     xmlns:converters="using:progMap.App.Avalonia.Converters"
+             x:Class="progMap.App.Avalonia.Views.TestViews.TestWindow"
+             xmlns:logging="clr-namespace:Rss.TmFramework.Logging;assembly=Rss.TmFramework"
+			 Icon="/Assets/rss_logo_32x32.ico"
+			 WindowStartupLocation="CenterScreen"
+			 Title="Циклограммы команд">
+
+	<Design.DataContext>
+		<vmtests:TestViewModel/>
+	</Design.DataContext>
+
+	<Window.Resources>
+		<converters:InverseBooleanConverter x:Key="InverseBoolConverter"/>
+		<LinearGradientBrush x:Key="GrayBlueGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+			<GradientStop Color="#7FD9A1EF" Offset="0"/>
+			<GradientStop Color="#7F7B65CE" Offset="100"/>
+		</LinearGradientBrush>
+
+		<LinearGradientBrush x:Key="RedGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+			<GradientStop Color="#FF7777" Offset="0"/>
+			<GradientStop Color="#FF3030" Offset="100"/>
+		</LinearGradientBrush>
+	</Window.Resources>
+
+	<Window.Styles>
+		<Style Selector="ListBox.classicScroll /template/ ScrollViewer#PART_ScrollViewer">
+			<Style.Resources>
+				<system:Double x:Key="ScrollBarSize">16</system:Double>
+				<Thickness x:Key="ListBoxItemPadding">1,1,17,1</Thickness>
+			</Style.Resources>
+			<Setter Property="AllowAutoHide" Value="False"/>
+		</Style>
+
+		<Style Selector="TextBox.textboxScroll /template/ ScrollViewer">
+			<Style.Resources>
+				<system:Double x:Key="ScrollBarSize">16</system:Double>
+			</Style.Resources>
+			<Setter Property="AllowAutoHide" Value="False"/>
+			<Setter Property="Margin" Value="-5 -5 -5 -2"></Setter>
+		</Style>
+
+		<Style Selector="TextBox.textScroll /template/ TextPresenter#PART_TextPresenter">
+			<Setter Property="Margin" Value="1,1,20,1"/>
+		</Style>
+
+		<Style Selector="TextBox.sc /template/ ScrollContentPresenter#PART_ContentPresenter">
+			<Setter Property="Padding" Value="5,5,5,5"></Setter>
+		</Style>
+
+		<Style Selector="TextBox.test /template/ Border#PART_BorderElement">
+
+		</Style>
+
+		<Style Selector="ComboBox.DataContext:isconnected">
+			<Setter Property="Background" Value="Beige"/>
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="IsEnabled" Value="False"/>
+		</Style>
+
+		<Style Selector="Button">
+			<Setter Property="Background" Value="{StaticResource GrayBlueGradientBrush}"/>
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="BorderBrush" Value="#775285"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="30"/>
+		</Style>
+
+		<Style Selector="ComboBox">
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="BorderBrush" Value="#775285"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="30"/>
+		</Style>
+
+		<Style Selector="TextBox">
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="BorderBrush" Value="#775285"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="30"/>
+		</Style>
+	</Window.Styles>
+
+	<DockPanel LastChildFill="True" Background="#7F8B7FDE">
+		<DockPanel DockPanel.Dock="Top" LastChildFill="False">
+			<Menu DockPanel.Dock="Left"
+					  HorizontalAlignment="Center" VerticalAlignment="Center"
+					  Margin="3,0">
+				<MenuItem Header="Файл" Height="25">
+					<MenuItem Header="Открыть"
+							  Command="{Binding OpenFile_Command}"/>
+				</MenuItem>
+
+				<MenuItem Header="Настройки">
+					<CheckBox Name="TopMostChecked" Content="Поверх остальных окон" Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"/>
+					<CheckBox Content="Остановить по ошибке" IsChecked="{Binding StopTestByError}"/>
+				</MenuItem>
+
+				<MenuItem Header="Старт"
+							  IsEnabled="{Binding TestIsRunning, Converter = {StaticResource InverseBoolConverter}}"
+							  Command="{Binding StartTest_Command}"/>
+				<MenuItem Header="Старт с выбранной"
+							  IsEnabled="{Binding TestIsRunning, Converter = {StaticResource InverseBoolConverter}}"
+							  Command="{Binding StartTestBySelected_Command}"/>
+				<MenuItem Header="Стоп"
+						  IsEnabled="{Binding TestIsRunning}"
+						  Command="{Binding StopTest_Command}"/>
+			</Menu>
+			<Label DockPanel.Dock="Right" BorderThickness="1" BorderBrush="Gray"
+				   HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+				   VerticalAlignment="Stretch" VerticalContentAlignment="Center"
+				   FontFamily="Courier New" FontSize="16"
+				   Content="{Binding TimeEllapsedText}"
+				   MinWidth="100"
+				   Margin="3"/>
+
+			<TextBlock DockPanel.Dock="Right"
+					   HorizontalAlignment="Center"
+					   VerticalAlignment="Center"
+					   Margin="3,0,3,0"
+					   FontSize="14"
+					   Text="Время теста:"/>
+			<Label DockPanel.Dock="Right" BorderThickness="1" BorderBrush="Gray"
+			   HorizontalAlignment="Center" HorizontalContentAlignment="Center"
+			   VerticalAlignment="Stretch" VerticalContentAlignment="Center"
+			   FontFamily="Courier New" FontSize="16"
+			   Content="{Binding CycleCounter}"
+			   MinWidth="100"
+			   Margin="3"/>
+			<TextBlock DockPanel.Dock="Right" Text="Номер цикла"
+					   HorizontalAlignment="Center"
+					   VerticalAlignment="Center"/>
+
+			<CheckBox  DockPanel.Dock="Right" Margin="10,0" Content="Повторять циклограмму" IsChecked="{Binding RepeatCyclogram, Mode=TwoWay}" />
+		</DockPanel>
+
+		<TextBlock DockPanel.Dock="Bottom" Margin="10,5" FontSize="14" Text="{Binding TestStateText}"/>
+
+		<DockPanel DockPanel.Dock="Top" LastChildFill="True">
+			<ScrollViewer VerticalScrollBarVisibility="Visible">
+				<ListBox x:Name="TestCasesListBox"
+						 Background="AliceBlue"
+				 Margin="3"
+				 ItemsSource="{Binding TestCases}"
+				 SelectedIndex="{Binding SelectedTestCaseIndex}">
+					<ListBox.ItemTemplate>
+						<DataTemplate DataType="{x:Type vmtests:TestCaseViewModel}">
+							<Border Margin="0,1,0,1">
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="*"/>
+									</Grid.RowDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"/>
+									</Grid.ColumnDefinitions>
+									<testviews:TestCaseControl DataContext="{Binding}" Margin="1" Grid.Column="0"/>
+								</Grid>
+							</Border>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</ScrollViewer>
+		</DockPanel>
+	</DockPanel>
+</Window>

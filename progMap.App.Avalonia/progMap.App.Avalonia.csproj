@@ -1,0 +1,78 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaXaml Remove="Assets\Images.axaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Add_16x.png" />
+    <None Remove="Assets\Cancel_16x.png" />
+    <None Remove="Assets\EditWindow_16x.png" />
+    <None Remove="Assets\ExpandChevronDown_16x.png" />
+    <None Remove="Assets\ExpandChevronUp_16x.png" />
+    <None Remove="Assets\FolderOpen_grey_16x.png" />
+    <None Remove="Assets\InformationSymbol_16x.png" />
+    <None Remove="Assets\rss_logo_32x32.ico" />
+    <None Remove="Assets\StepBackArrow_16x.png" />
+    <None Remove="Assets\StepOverArrow_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.2.1" />
+    <PackageReference Include="Avalonia.AvaloniaEdit" Version="11.2.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.2.1" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.1" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.1" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.2.1">
+      <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+      <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.1" />
+    <PackageReference Include="System.IO.Ports" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\progMap.Core\progMap.Core.csproj" />
+    <ProjectReference Include="..\progMap.Interfaces\progMap.Interfaces.csproj" />
+    <ProjectReference Include="..\progMap.ViewModels\progMap.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Rss.TmFramework">
+      <HintPath>..\..\..\..\Desktop\NewFramework 20241206\Rss.TmFramework 11.1.0 VER 2\Rss.TmFramework\bin\Release\net6.0\Rss.TmFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rss.TmFramework.Base">
+      <HintPath>..\..\..\..\Desktop\NewFramework 20241206\Rss.TmFramework 11.1.0 VER 2\Rss.TmFramework.Base\bin\Release\net6.0\Rss.TmFramework.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Rss.TmFramework.Channels.Serial">
+      <HintPath>..\..\..\..\Desktop\NewFramework 20241206\Rss.TmFramework 11.1.0 VER 2\Rss.TmFramework.Channels.Serial\bin\Release\net6.0\Rss.TmFramework.Channels.Serial.dll</HintPath>
+    </Reference>
+    <Reference Include="Rss.TmFramework.Controls.Avalonia">
+      <HintPath>..\..\..\..\Desktop\NewFramework 20241206\Rss.TmFramework 11.1.0 VER 2\Rss.TmFramework.Controls.Avalonia\bin\Release\net6.0\Rss.TmFramework.Controls.Avalonia.dll</HintPath>
+    </Reference>
+    <Reference Include="Rss.TmFramework.Mvvm">
+      <HintPath>..\..\..\..\Desktop\NewFramework 20241206\Rss.TmFramework 11.1.0 VER 2\Rss.TmFramework.Mvvm\bin\Release\net6.0\Rss.TmFramework.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Ports">
+      <HintPath>..\..\..\Desktop\NewFramework 20241206\Rss.TmFramework 11.1.0 VER 2\Rss.TmFramework.Channels.Serial\System.IO.Ports.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Update="Assets\Images.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaResource>
+  </ItemGroup>
+</Project>

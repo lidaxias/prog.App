@@ -1,0 +1,306 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vmAv="using:progMap.App.Avalonia.ViewModels"
+		xmlns:vm="using:progMap.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="progMap.App.Avalonia.Views.MainWindow"
+		xmlns:system="using:System"
+		xmlns:controls="using:progMap.App.Avalonia.Controls"
+		xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+		xmlns:converters="using:progMap.App.Avalonia.Converters"
+		xmlns:plugins="using:progMap.App.Avalonia.Plugins"
+		
+        x:DataType="vmAv:MainWindowViewModel"
+        xmlns:logging="clr-namespace:Rss.TmFramework.Logging;assembly=Rss.TmFramework"
+        Icon="/Assets/avalonia-logo.ico"
+		WindowStartupLocation="CenterScreen"
+        Title="Программатор 2025">
+
+    <Design.DataContext>
+        <vmAv:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<Window.Resources>
+		<LinearGradientBrush x:Key="GrayBlueGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+			<GradientStop Color="#7FD9A1EF" Offset="0"/>
+			<GradientStop Color="#7F7B65CE" Offset="100"/>
+		</LinearGradientBrush>
+
+		<LinearGradientBrush x:Key="RedGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+			<GradientStop Color="#FF7777" Offset="0"/>
+			<GradientStop Color="#FF3030" Offset="100"/>
+		</LinearGradientBrush>
+	</Window.Resources>
+
+	<Window.Styles>
+		<Style Selector="ListBox.classicScroll /template/ ScrollViewer#PART_ScrollViewer">
+			<Style.Resources>
+				<system:Double x:Key="ScrollBarSize">16</system:Double>
+				<Thickness x:Key="ListBoxItemPadding">1,1,17,1</Thickness>
+			</Style.Resources>
+			<Setter Property="AllowAutoHide" Value="False"/>
+		</Style>
+
+		<Style Selector="TextBox.textboxScroll /template/ ScrollViewer">
+			<Style.Resources>
+				<system:Double x:Key="ScrollBarSize">16</system:Double>
+			</Style.Resources>
+			<Setter Property="AllowAutoHide" Value="False"/>
+			<Setter Property="Margin" Value="-5 -5 -5 -2"></Setter>
+		</Style>
+
+		<Style Selector="TextBox.textScroll /template/ TextPresenter#PART_TextPresenter">
+			<Setter Property="Margin" Value="1,1,20,1"/>
+		</Style>
+
+		<Style Selector="TextBox.sc /template/ ScrollContentPresenter#PART_ContentPresenter">
+			<Setter Property="Padding" Value="5,5,5,5"></Setter>
+		</Style>
+
+		<Style Selector="TextBox.test /template/ Border#PART_BorderElement">
+
+		</Style>
+
+		<Style Selector="ComboBox.DataContext:isconnected">
+			<Setter Property="Background" Value="Beige"/>
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="IsEnabled" Value="False"/>
+		</Style>
+
+		<Style Selector="Button">
+			<Setter Property="Background" Value="{StaticResource GrayBlueGradientBrush}"/>
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="BorderBrush" Value="#775285"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="30"/>
+		</Style>
+
+		<Style Selector="ComboBox">
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="BorderBrush" Value="#775285"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="30"/>
+		</Style>
+
+		<Style Selector="TextBox">
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="BorderBrush" Value="#775285"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="30"/>
+		</Style>
+
+		<!--<StyleInclude Source="avares://AvaloniaEdit/AvaloniaEdit.xaml"/>-->
+	</Window.Styles>
+
+	<Window.DataTemplates>
+		<DataTemplate DataType="vm:DeviceConfigurationVm">
+			<TextBlock Text="{Binding Name}"/>
+		</DataTemplate>
+
+		<DataTemplate DataType="vm:ChannelTypeVm">
+			<TextBlock Text="{Binding Name}"/>
+		</DataTemplate>
+	</Window.DataTemplates>
+
+	<DockPanel LastChildFill="True">
+		<!-- Меню -->
+		<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="LightCyan">
+			<TextBlock Margin ="5" Text ="Конфигурация" VerticalAlignment="Center"/>
+
+			<ComboBox Margin ="5" ItemsSource="{Binding DeviceConfigurationsVm}" SelectedItem="{Binding SelectedDeviceConfigurationVm}" IsEnabled="{Binding !IsConnected}" VerticalContentAlignment="Center" MinWidth="200"/>
+
+			<Button Command="{Binding EditConfigCommand}" ToolTip.Tip="Редактировать конфигурации">
+				<Image Source="/Assets/EditWindow_16x.png" Height="20"/>
+			</Button>
+
+			<ComboBox ItemsSource="{Binding ChannelTypes}" SelectedItem="{Binding SelectedChannelType}" IsEnabled="{Binding !IsConnected}" VerticalContentAlignment="Center" MinWidth="120" Margin="5"/>
+
+			<Button Command="{Binding ConnectDisconnectCommand}"
+					CommandParameter="{Binding SelectedChannelType}"
+					Classes.IsConnected ="{Binding ConnectionService.IsConnected}"
+					Classes.IsDisconnected ="{Binding !ConnectionService.IsConnected}"
+					Padding="5, 2" VerticalAlignment="Stretch" VerticalContentAlignment="Center" Margin="5">
+				<Button.Styles>
+					<Style Selector="Button.IsConnected">
+						<Setter Property="Content" Value="Закрыть"/>
+					</Style>
+					<Style Selector="Button.IsDisconnected">
+						<Setter Property="Content" Value="Открыть"/>
+					</Style>
+				</Button.Styles>
+			</Button>
+
+			<TextBox Text="{Binding SelectedDeviceConfigurationVm.ConnectionString}" IsEnabled="{Binding !IsConnected}" VerticalContentAlignment="Center" VerticalAlignment="Stretch" MinWidth="225" Margin ="5"/>
+			<Button Padding="5, 2" Content="Загрузить конфигурацию" Command="{Binding OpenFileConfigurationCommand}" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Margin="5"/>
+		</StackPanel>
+
+		<StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Background="LightCyan">
+			<TextBlock Margin="5" VerticalAlignment="Center" Text="Установленный тип памяти:"/>
+			<TextBox Margin="5" IsEnabled="False" VerticalContentAlignment="Center" VerticalAlignment="Stretch" FontWeight="Bold" Foreground="Black" DataContext="{Binding MemoryTypeInstall}" Text="{Binding Name}"/>
+			<Button Padding="5, 2" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Margin="5" Content="Обновить" Command="{Binding UpdateMemoryTypeCommand}"/>
+			<Button Padding="5, 2" VerticalContentAlignment="Center" VerticalAlignment="Stretch" Margin="5" Command="{Binding SetMemoryTypeCommand}" Content="{Binding SelectedMemoryTypeName, StringFormat=Установить \{0\}}"/>
+		
+			<CheckBox Padding="5, 2" Margin="5" IsChecked="{Binding IsDTR, Mode=TwoWay}" Content="DTR" IsEnabled="{Binding IsConnected}"/>
+			<CheckBox Padding="5, 2" Margin="5" IsChecked="{Binding IsWritePackets, Mode=TwoWay}" Content="Отписывать все пакеты" IsEnabled="{Binding IsConnected}"/>
+			<Button Content="Терминал" Command="{Binding OpenTerminalWindowCommand}" ToolTip.Tip="Открыть терминал в новом окне"/>
+			<Button Content="Файл образа" Command="{Binding FileFormationCommand}" ToolTip.Tip="Сформировать файл образа"/>
+			<Button Content="Тесты" Command="{Binding OpenTestWindowCommand}" ToolTip.Tip="Открыть окно циклограмм команд"/>
+
+		</StackPanel>
+
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="2*" MinHeight="100"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="2*" MinHeight="100"/>
+			</Grid.RowDefinitions>
+
+			<TabControl Grid.Row="0" Background="LightCyan">
+				<TabItem Header="Память" FontSize="15" FontWeight="DemiBold">
+					<DockPanel LastChildFill="True" Background="AliceBlue">
+						<Grid DockPanel.Dock="Top" ColumnDefinitions="*,130, 110, 125,130,*,35,35,35, 35">
+							<TextBlock Grid.Column="0" Margin="5" Text="Имя области"/>
+							<TextBlock Grid.Column="1" Margin="5" Text="Адрес области"/>
+							<TextBlock Grid.Column="2" Margin="5" Text="Виртуальный"/>
+							<TextBlock Grid.Column="3" Margin="5" Text="Размер области"/>
+						</Grid>
+
+						<ListBox DataContext="{Binding SelectedDeviceConfigurationVm}" ItemsSource="{Binding MemorySections}" Background="#7F56B3CC" AutoScrollToSelectedItem="True" Classes="classicScroll">
+							<ListBox.Styles>
+								<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+									<Setter Property="Background" Value="#7F7B65CE"/>
+								</Style>
+								<Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+									<Setter Property="Background" Value="#7F7B65CE"/>
+								</Style>
+							</ListBox.Styles>
+							<ListBox.ItemTemplate>
+								<DataTemplate DataType="vm:MemorySectionConfigurationVm">
+									<Border BorderThickness="1" BorderBrush="Gray" Margin="1,0,1,0">
+
+										<Grid ColumnDefinitions="*,120,120, 120,110,*,35,35,35,35">
+
+											<TextBlock Grid.Column="0" Margin ="3" Text="{Binding Name}" VerticalAlignment="Center"/>
+											<TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16.5" FontWeight="Bold" FontFamily="Lucida Console" Margin ="3" Text="{Binding Address, StringFormat={}0x{0:X8}}"/>
+											<CheckBox IsEnabled="false" Grid.Column="2" HorizontalAlignment="Center" FontWeight="Bold" IsChecked="{Binding IsVirtual}" Margin ="3"/>
+											<TextBlock Grid.Column="3" VerticalAlignment="Center" FontSize="16.5" FontWeight="Bold" FontFamily="Lucida Console" Margin ="3" Text="{Binding Size, StringFormat={}0x{0:X8}}"/>
+
+											<controls:PopupUserControl Grid.Column="4" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Margin="1"/>
+
+											<Button ToolTip.Tip="Загрузить данные из файла" Grid.Column="6" FontWeight="Bold" Padding="3" Margin="0,0,4,0"  CommandParameter="{Binding}" Command="{Binding DataContext.LoadMemorySectionCommand, RelativeSource={RelativeSource AncestorType=Window}}" Height="30">
+												<Image Source="/Assets/FolderOpen_grey_16x.png"/>
+											</Button>
+											<Button ToolTip.Tip="Прочитать данные из этой секции" Grid.Column="7" FontWeight="Bold" Margin="0,0,0,0" FontSize="14" HorizontalContentAlignment="Center"
+													VerticalContentAlignment="Center" Content="R" CommandParameter="{Binding}" Command="{Binding DataContext.ReadMemorySectionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+													Height="30" Width="30" />
+											<Button ToolTip.Tip="Записать данные в эту секцию" Grid.Column="8" FontWeight="Bold" Margin="0,0,0,0" FontSize="14" HorizontalContentAlignment="Center"
+													VerticalContentAlignment="Center" Padding="5" Content="W" CommandParameter="{Binding}" Command="{Binding DataContext.WriteMemorySectionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+													Height="30" Width="30"/>
+											<Button ToolTip.Tip="Стереть данные" Grid.Column="9" FontWeight="Bold" Margin="0,0,0,0" FontSize="14" Padding="5" HorizontalContentAlignment="Center"
+													VerticalContentAlignment="Center" Content="E" CommandParameter="{Binding}" Command="{Binding DataContext.EraseSectionCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+													Height="30" Width="30"/>
+
+										</Grid>
+									</Border>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+					</DockPanel>
+				</TabItem>
+
+				<TabItem Header="Файлы" FontSize="15" FontWeight="DemiBold">
+					<DockPanel LastChildFill="True" Background="AliceBlue">
+						<Grid DockPanel.Dock="Top" ColumnDefinitions="5*,30*,120,120,100,120,120,120,20">
+							<TextBlock Grid.Column="0" Margin="5" Text="Имя области"/>
+							<TextBlock Grid.Column="2" Margin="5" Text="Адрес области"/>
+							<TextBlock Grid.Column="3" Margin="5" Text="Размер области"/>
+						</Grid>
+
+						<DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch">
+							<TextBlock DockPanel.Dock="Left" Margin="3" DataContext="{Binding ProgressBarViewModel}" Text="{Binding OperationName}" VerticalAlignment="Center"/>
+							<Panel DockPanel.Dock="Left">
+								<Grid ColumnDefinitions="*, 70">
+									<ProgressBar Height="24" Margin="3" DataContext="{Binding ProgressBarViewModel}"
+											 BorderBrush="Gray" BorderThickness="1" Foreground="GreenYellow"
+											 Minimum="0" Maximum="{Binding ProgressMaximum}" Value="{Binding ProgressValue}"
+											 Grid.Column="0" />
+
+									<Grid ColumnDefinitions="*, Auto, Auto, Auto *">
+										<TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" DataContext="{Binding ProgressBarViewModel}" Text="{Binding ProgressValue}"/>
+										<TextBlock Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Text="/"/>
+										<TextBlock Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" DataContext="{Binding ProgressBarViewModel}" Text="{Binding ProgressMaximum}"/>
+									</Grid>
+									<Button Margin="3 3 0 3" Content="СТОП" Grid.Column="1" HorizontalAlignment="Right" DataContext="{Binding ProgressBarViewModel}"  Background="{StaticResource RedGradientBrush}" IsEnabled="{Binding IsRunning}"  Command="{Binding StopCommand}"/>
+								</Grid>
+							</Panel>
+						</DockPanel>
+
+						<ListBox DataContext="{Binding SelectedDeviceConfigurationVm}" ItemsSource ="{Binding FileSections}" Background="#7F56B3CC" Classes="classicScroll">
+							<ListBox.Styles>
+								<Style Selector="ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+									<Setter Property="Background" Value="#7F7B65CE"/>
+								</Style>
+								<Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+									<Setter Property="Background" Value="#7F7B65CE"/>
+								</Style>
+							</ListBox.Styles>
+
+							<ListBox.ItemTemplate>
+								<DataTemplate DataType="vm:FileSectionConfigurationVm">
+									<Border BorderThickness="1" BorderBrush="Gray" Margin="1,0,1,0">
+										<Grid>
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="*"/>
+												<ColumnDefinition Width="120"/>
+												<ColumnDefinition Width="120"/>
+												<ColumnDefinition Width="120"/>
+												<ColumnDefinition Width="100"/>
+												<ColumnDefinition Width="100"/>
+												<ColumnDefinition Width="100"/>
+												<ColumnDefinition Width="30"/>
+											</Grid.ColumnDefinitions>
+
+											<TextBlock Grid.Column="0" VerticalAlignment="Center" Margin ="5" Text="{Binding Name}"/>
+											<TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" FontFamily="Lucida Console" Margin ="5" Text="{Binding Address, StringFormat={}0x{0:X8}}" />
+											<TextBlock Grid.Column="2" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" FontFamily="Lucida Console" Margin ="5" Text="{Binding Size, StringFormat={}0x{0:X8}}" />
+
+											<Button Grid.Column="3" Width="90"  IsCancel="False" HorizontalAlignment="Center" Margin="4, 2, 0, 2"
+													IsEnabled="{Binding !DataContext.IsRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+													HorizontalContentAlignment="Center" Content="Стереть" CommandParameter="{Binding}" Command="{Binding DataContext.EraseSectionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+											<Button Grid.Column="4" Width="90"  BorderThickness="1" HorizontalContentAlignment="Center" Margin="0, 2, 0, 2"
+													IsEnabled="{Binding !DataContext.IsRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+													Content="Записать" CommandParameter="{Binding}" Command="{Binding DataContext.WriteMemorySectionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+											<Button Grid.Column="5" Width="90"  HorizontalAlignment="Center" HorizontalContentAlignment="Center" Margin="0, 2, 4, 2"
+													IsEnabled="{Binding !DataContext.IsRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+													BorderThickness="1" Content="Прочитать" CommandParameter="{Binding}" Command="{Binding DataContext.ReadMemorySectionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+											<Button Grid.Column="6" Width="90"  HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0, 2, 4, 2"
+													IsEnabled="{Binding !DataContext.IsRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"
+													BorderThickness="1" Content="Сравнить" CommandParameter="{Binding}" Command="{Binding DataContext.CompareFileSectionCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+											<Button ToolTip.Tip="Информация о файле" Grid.Column="7" Width="30" Padding="3" Margin="9,2,4,2"
+													IsEnabled="{Binding !DataContext.IsRunning, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" CommandParameter="{Binding}"
+													Command="{Binding DataContext.ReadFileSectionInfoCommand, RelativeSource={RelativeSource AncestorType=Window}}" Height="30">
+												<Image Source="/Assets/InformationSymbol_16x.png"/>
+											</Button>
+										</Grid>
+									</Border>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+					</DockPanel>
+				</TabItem>
+			</TabControl>
+
+			<GridSplitter Grid.Row="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows" Background="#B23094AF" HorizontalAlignment="Stretch"/>
+			<TabControl x:Name="tab" Grid.Row="2" DockPanel.Dock="Bottom" Background="LightCyan" ItemsSource="{Binding ProgPlugins}">
+				<TabControl.ItemTemplate>
+					<DataTemplate>
+						<TabItem FontSize="15" FontWeight="DemiBold" Header="{Binding Title}"/>
+					</DataTemplate>
+				</TabControl.ItemTemplate>
+			</TabControl>
+		</Grid>
+	</DockPanel>
+</Window>

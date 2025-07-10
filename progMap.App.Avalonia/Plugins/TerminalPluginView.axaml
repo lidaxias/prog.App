@@ -1,0 +1,49 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+			 xmlns:TerminalEdit="clr-namespace:Rss.TmFramework.Controls.Avalonia;assembly=Rss.TmFramework.Controls.Avalonia"
+			 xmlns:models="clr-namespace:progMap.App.Avalonia.Models;assembly=progMap.App.Avalonia"
+			 xmlns:system="using:System"
+			 xmlns:plugins="clr-namespace:progMap.App.Avalonia.Plugins;assembly=progMap.App.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="progMap.App.Avalonia.Plugins.TerminalPluginView">
+
+	<TerminalEdit:TerminalTextEditorControl
+		x:Name="terminalEditor"
+		Background="AliceBlue"
+		TerminalEdit:TerminalTextEditorBehavior.BindableText="{Binding DebugMessages}">
+		<TerminalEdit:TerminalTextEditorControl.ContextMenu>
+			<ContextMenu>
+				<MenuItem Header="Очистить" Command="{Binding ClearTerminalCommand}"/>
+				<MenuItem Header="Сохранить как" Click="SaveAs_Click"/>
+			</ContextMenu>
+		</TerminalEdit:TerminalTextEditorControl.ContextMenu>
+	</TerminalEdit:TerminalTextEditorControl>
+
+
+	<!--<UserControl.Styles>
+		<StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml"/>
+		<Style Selector="AvaloniaEdit|TextEditor.textEditor /template/ ScrollViewer#PART_ScrollViewer">
+			<Setter Property="AllowAutoHide" Value="False"/>
+		</Style>
+	</UserControl.Styles>
+
+
+	<AvaloniaEdit:TextEditor
+		x:Name="terminalEditor"
+		models:TerminalTextEditorBehavior.BindableText="{Binding DebugMessages}"
+		Classes="textEditor"
+		ShowLineNumbers="True"
+		IsReadOnly="True"
+		FontFamily="Cascadia Code"
+		Background="AliceBlue">
+		<AvaloniaEdit:TextEditor.ContextMenu>
+			<ContextMenu>
+				<MenuItem Header="Очистить" Command="{Binding ClearTerminalCommand}"/>
+				<MenuItem Header="Сохранить как" Click="SaveAs_Click"/>
+			</ContextMenu>
+		</AvaloniaEdit:TextEditor.ContextMenu>
+	</AvaloniaEdit:TextEditor>-->
+</UserControl>

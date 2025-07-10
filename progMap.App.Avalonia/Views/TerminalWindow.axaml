@@ -1,0 +1,37 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="progMap.App.Avalonia.Views.TerminalWindow"
+		WindowStartupLocation="CenterScreen"
+        Icon="/Assets/rss_logo_32x32.ico"
+        Title="Терминал">
+	
+	<Window.Resources>
+		<LinearGradientBrush x:Key="GrayBlueGradientBrush" StartPoint="0%,0%" EndPoint="100%,100%">
+			<GradientStop Color="#7FD9A1EF" Offset="0"/>
+			<GradientStop Color="#7F7B65CE" Offset="100"/>
+		</LinearGradientBrush>
+	</Window.Resources>
+
+	<Window.Styles>
+		<Style Selector="Button">
+			<Setter Property="Background" Value="{StaticResource GrayBlueGradientBrush}"/>
+			<Setter Property="Margin" Value="2"/>
+			<Setter Property="BorderBrush" Value="#775285"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="Height" Value="30"/>
+		</Style>
+
+	</Window.Styles>
+	<DockPanel LastChildFill="True" Background="AliceBlue" Margin="3">
+		<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="2">
+			<CheckBox Checked="CheckBox_CheckedChanged" Unchecked="CheckBox_CheckedChanged"/>
+			<TextBlock Text="Поверх остальных окон" VerticalAlignment="Center"/>
+			<Button Content="Очистить" Command="{Binding ClearTerminalCommand}"/>
+			<Button Content="Сохранить как" Command="{Binding SaveTerminalInFile}"/>
+		</StackPanel>
+		<TextBox Text="{Binding DebugMessages}" TextWrapping="Wrap" FontFamily="Courier New" PropertyChanged="TextBox_OnPropertyChanged" IsReadOnly="True"/>
+	</DockPanel>
+</Window>
